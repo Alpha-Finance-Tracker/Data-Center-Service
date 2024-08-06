@@ -3,7 +3,8 @@ uvicorn
 python-dotenv
 mysql-connector-python
 mysqlclient
-torch
-torchvision
-torchaudio
-easyocr
+pandas
+pytesseract
+opencv-python
+openai
+python-multipart

@@ -1,0 +1,42 @@
+# from PIL import Image
+# import pytesseract
+# import pandas as pd
+#
+# # Update this path to where Tesseract is installed on your system
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+#
+# # Load an image from file
+# img = Image.open('receipt1.PNG')  # Ensure the image file name is correct
+#
+# # Use pytesseract to do OCR on the image
+# text = pytesseract.image_to_string(img, lang='bul')  # Use 'bul' for Bulgarian
+#
+# # Print the recognized text
+# lines = text.strip().split('\n')
+#
+# data = []
+#
+# for line in lines:
+#     data.append(line)
+#
+# # Create a DataFrame
+# df = pd.DataFrame(data)
+# pd.set_option('display.max_rows', None)
+# # Print the DataFrame
+#
+#
+# # #
+# # print(df)
+#
+# start_keyword = '# вом #'
+# end_keyword = '# БАНКА ДСК'
+#
+# # Find the index of the start row
+# start_index = df[df[0].str.contains(start_keyword, na=False, case=False)].index[0] +1
+#
+# # Find the index of the end row
+# end_index = df[df[0].str.contains(end_keyword, na=False, case=False)].index[0] -3
+# filtered_df = df.loc[start_index:end_index]
+#
+# print("\nFiltered DataFrame:")
+# print(filtered_df)

@@ -1,10 +1,12 @@
-import easyocr
+import uvicorn
+from fastapi import FastAPI
 
-# Initialize the reader with desired languages
-reader = easyocr.Reader(['en', 'bg'])  # English and Bulgarian
+from app.api.routes.receipts_router import receipts_router
 
-# Perform OCR on an image
-results = reader.readtext('data/images/receipt1.jpg')
+app = FastAPI()
 
-for result in results:
-    print(result)
+app.include_router(receipts_router)
+
+
+if __name__ == "__main__":
+    uvicorn.run(app, host="127.0.0.1", port=8000)

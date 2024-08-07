@@ -1,10 +1,9 @@
-import re
+
 from io import BytesIO
 
 import cv2
 from PIL import Image
 import pytesseract
-import pandas as pd
 import numpy as np
 
 # Update this path to where Tesseract is installed on your system

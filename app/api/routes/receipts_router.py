@@ -1,27 +1,25 @@
-import pandas as pd
-from fastapi import APIRouter
-from fastapi import  File, UploadFile
 
-from app.ocr.ocr import extract_products
-from lidl import preprocess_image, perform_ocr, extract_info, handle_image
+from fastapi import APIRouter, File, UploadFile, Query
 
-receipts_router = APIRouter(prefix='/receipts')
+from app.api.services.kaufland_services import kaufland_service
+
+from app.utils.query_services import add_product_into_db, get_expenditures_from_db
+
+purchase_tracker_router = APIRouter(prefix='/purchases')
 
 
-@receipts_router.post('/')
-async def receipt(image: UploadFile = File(...)):
-    # Handle image and preprocess it
-    open_cv_image = await handle_image(image)
-    enhanced_image = preprocess_image(open_cv_image)
+@purchase_tracker_router.post('/')
+async def submit_new_kaufland_receipt(image: UploadFile = File(...), date = Query(...,)):
+    return await kaufland_service(image,date)
 
-    # Perform OCR on the preprocessed image
-    text = perform_ocr(enhanced_image)
-    extracted_data = extract_info(text)
+@purchase_tracker_router.put('/product')
+async def add_product(name:str = Query(...,),price:float = Query(...,),type=Query(),date=Query()):
+    return await add_product_into_db(name,price,type,date)
 
-    # Convert extracted data to DataFrame and print
-    df = pd.DataFrame(extracted_data, columns=['Extracted Data'])
+@purchase_tracker_router.get('/monthly_expenditures')
+async def view_monthly_expenditures(month:str):
+    return await get_expenditures_from_db(month)
 
-    product_prices = extract_products(extracted_data)
-    for product, price in product_prices.items():
-        print(f"Product: {product}, Price: {price}")
-    return product_prices
+@purchase_tracker_router.get('/biggest_passives')
+async def view_biggest_passives():
+    return f"To do"

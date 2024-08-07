@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.api.routes.receipts_router import receipts_router
+from app.api.routes.receipts_router import purchase_tracker_router
 
 app = FastAPI()
 
-app.include_router(receipts_router)
+app.include_router(purchase_tracker_router)
 
 
 if __name__ == "__main__":

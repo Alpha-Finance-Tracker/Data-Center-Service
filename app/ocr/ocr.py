@@ -4,8 +4,9 @@ from io import BytesIO
 import cv2
 from PIL import Image
 import pytesseract
-import pandas as pd
 import numpy as np
+
+from app.utils.helpers import convert_to_float
 
 # Update this path to where Tesseract is installed on your system
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
@@ -64,8 +65,13 @@ def extract_products(data):
         match = product_price_pattern.match(line)
         if match:
             product_name = match.group(1).strip()
-            price = match.group(2).strip()
-            product_price_dict[product_name] = price
+            price_tag = match.group(2).strip()
+            price = convert_to_float(price_tag)
+            if product_name in product_price_dict:
+                product_price_dict[product_name] += price
+            else:
+                product_price_dict[product_name] = price
+
 
     return product_price_dict
 

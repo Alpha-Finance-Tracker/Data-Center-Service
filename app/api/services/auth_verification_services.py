@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import HTTPException
 from jose import JWTError, jwt
 import os
@@ -9,7 +11,7 @@ load_dotenv()
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = os.getenv('ALGORITHM')
 
-def verify_token(token: str):
+async def verify_token(token: str):
     credentials_exception = HTTPException(
         status_code=401,
         detail="Could not validate credentials",
@@ -17,6 +19,9 @@ def verify_token(token: str):
     )
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        exp = payload.get('exp')
+        if exp is None or datetime.fromtimestamp(exp) < datetime.now():
+            raise credentials_exception
         return payload
     except JWTError:
         raise credentials_exception

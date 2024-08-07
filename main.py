@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.api.routes.receipts_router import purchase_tracker_router
+from app.api.routes.food_router import purchase_tracker_router
 
 app = FastAPI()
 

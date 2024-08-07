@@ -1,9 +1,8 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import HTTPException
 from jose import JWTError, jwt
 import os
 
 from dotenv import load_dotenv
-app = FastAPI()
 load_dotenv()
 
 

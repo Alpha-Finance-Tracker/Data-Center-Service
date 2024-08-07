@@ -8,21 +8,19 @@ from app.utils.query_services import add_product_into_db, get_expenditures_from_
 
 purchase_tracker_router = APIRouter(prefix='/purchases')
 
-token_b = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo4LCJlbWFpbCI6IkFsZXhEQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiZXhwIjoxNzIzMDMxMDMyLCJsYXN0X2FjdGl2aXR5IjoiMjAyNC0wOC0wNyAxMToxMzo1Mi43OTk3NzcifQ.pmylS31H7yENUSQfBrzd2W-25g2jKC6rXuTPLLXOZho'
-
-
 @purchase_tracker_router.post('/')
-async def submit_new_kaufland_receipt(image: UploadFile = File(...), date = Query(...,)):
+async def submit_new_kaufland_receipt(token,image: UploadFile = File(...), date = Query(...,)):
+    await verify_token(token)
     return await kaufland_service(image,date)
 
 @purchase_tracker_router.put('/product')
-async def add_product(name:str = Query(...,),price:float = Query(...,),type=Query(),date=Query()):
+async def add_product(token,name:str = Query(...,),price:float = Query(...,),type=Query(),date=Query()):
+    await verify_token(token)
     return await add_product_into_db(name,price,type,date)
 
 @purchase_tracker_router.get('/monthly_expenditures')
-async def view_monthly_expenditures(month:str):
-    tt = token_b
-    await verify_token(tt)
+async def view_monthly_expenditures(token:str,month:str):
+    await verify_token(token)
     return await get_expenditures_from_db(month)
 
 @purchase_tracker_router.get('/biggest_passives')

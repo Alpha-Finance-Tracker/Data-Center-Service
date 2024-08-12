@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Query
 
-from app.api.services.auth_verification_services import verify_token
+from app.utils.auth_verification_services import verify_token
 
 sports_expenditures_router = APIRouter(prefix='transportation')
 

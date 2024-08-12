@@ -1,11 +1,11 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.api.routes.food_router import purchase_tracker_router
+from app.api.food_features.food_router import purchased_food_router 
 
 app = FastAPI()
 
-app.include_router(purchase_tracker_router)
+app.include_router(purchased_food_router)
 
 
 if __name__ == "__main__":

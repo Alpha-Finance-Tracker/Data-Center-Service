@@ -1,15 +1,17 @@
 import re
 from io import BytesIO
-
 import cv2
 from PIL import Image
 import pytesseract
 import numpy as np
-
 from app.utils.helpers import convert_to_float
 
 # Update this path to where Tesseract is installed on your system
-pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
+
 
 
 async def handle_image(file):

@@ -1,5 +1,6 @@
 from app.data.queries import register_receipt_in_db
 from app.ocr.ocr import handle_image, preprocess_image, perform_ocr, extract_info, extract_products
+from app.utils.openAI_services import classify_products
 
 
 async def kaufland_service(image,date):
@@ -8,5 +9,6 @@ async def kaufland_service(image,date):
     text = perform_ocr(enhanced_image)
     extracted_data = extract_info(text)
     product_prices = extract_products(extracted_data)
-    await register_receipt_in_db(product_prices,date)
+    products = classify_products(product_prices)
+    await register_receipt_in_db(products,date)
     return product_prices

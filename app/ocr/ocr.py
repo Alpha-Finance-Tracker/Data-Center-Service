@@ -8,9 +8,9 @@ from app.utils.helpers import convert_to_float
 
 # Update this path to where Tesseract is installed on your system
 
-# pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
-pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
+# pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
 
 
 

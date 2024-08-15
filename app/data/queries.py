@@ -6,8 +6,10 @@ from app.data.database import update_query, read_query
 
 async def register_receipt_in_db(foods,date):
     event_date =datetime.strptime(date, '%d.%m.%Y').date()
-    for n,p in foods.items():
-        update_query('INSERT INTO expenditures(name,price,date,user_id) VALUES(%s,%s,%s, %s)',(n,p,event_date, 8))
+    for pair in foods:
+        update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
+                     (pair['name'], pair['price'],'Food',pair['type'], event_date, 8))
+
 
 async def get_expenditures_from_db(start_date,end_date,category,type):
 
@@ -49,10 +51,9 @@ async def category_expenditures_from_db():
 
     return output
 
-
 async def food_expenditures_from_db():
     data = read_query(
-        'SELECT type,  ROUND(SUM(price), 2) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',("Food",))
+        'SELECT type, ROUND(SUM(price), 2) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',("Food",))
     output = {}
 
     for row in data:
@@ -60,5 +61,18 @@ async def food_expenditures_from_db():
             output[row[0]] += row[1]
         output[row[0]] = row[1]
 
+    return output
+
+async def food_expenditures_by_name_from_db():
+    data = read_query(
+        'SELECT name, ROUND(SUM(price), 2) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',
+        ("Food",))
+    output = {}
+
+    for row in data:
+        if row[0] in output:
+            output[row[0]] += row[1]
+        output[row[0]] = row[1]
 
     return output
+

@@ -38,11 +38,27 @@ async def add_expenditure_into_db(name,price,category,type,date,token):
     return "Product added successfully "
 
 async def category_expenditures_from_db():
-    data =  read_query('SELECT category, SUM(price) as total_price FROM expenditures GROUP BY category ORDER BY total_price DESC')
+    data =  read_query('SELECT category,  ROUND(SUM(price), 2) as total_price FROM expenditures GROUP BY category ORDER BY total_price DESC')
 
-    return  {"All Expenditures": data}
+    output = {}
+    for row in data:
+        if row[0] == "":
+            output['Total'] = row[1]
+        else:
+            output[row[0]] = row[1]
+
+    return output
+
 
 async def food_expenditures_from_db():
     data = read_query(
-        'SELECT type, SUM(price) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',("Food",))
-    return {'All food expenditures':data}
+        'SELECT type,  ROUND(SUM(price), 2) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',("Food",))
+    output = {}
+
+    for row in data:
+        if row[0] in output:
+            output[row[0]] += row[1]
+        output[row[0]] = row[1]
+
+
+    return output

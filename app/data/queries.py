@@ -9,7 +9,7 @@ async def register_receipt_in_db(foods,date):
     for n,p in foods.items():
         update_query('INSERT INTO expenditures(name,price,date,user_id) VALUES(%s,%s,%s, %s)',(n,p,event_date, 8))
 
-async def get_category_expenditures_from_db(start_date,end_date,category,type):
+async def get_expenditures_from_db(start_date,end_date,category,type):
 
     if category and type :
         products =  read_query('SELECT name,price FROM expenditures WHERE  category = %s AND type = %s AND date BETWEEN %s AND %s', (category,type,start_date,end_date))
@@ -37,3 +37,12 @@ async def add_expenditure_into_db(name,price,category,type,date,token):
     update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',(name,price,category,type,event_date, token.get("user_id")))
     return "Product added successfully "
 
+async def category_expenditures_from_db():
+    data =  read_query('SELECT category, SUM(price) as total_price FROM expenditures GROUP BY category ORDER BY total_price DESC')
+
+    return  {"All Expenditures": data}
+
+async def food_expenditures_from_db():
+    data = read_query(
+        'SELECT type, SUM(price) as total_price FROM expenditures WHERE category = %s GROUP BY type ORDER BY total_price DESC',("Food",))
+    return {'All food expenditures':data}

@@ -12,7 +12,7 @@ async def kaufland_receipt(token,image: UploadFile = File(...), date = Query(...
     return await kaufland_service(image,date)
 
 @finance_tracker.put('/update')
-async def add_expenditure(token,name:str = Query(...,),price:float = Query(...,),category=Query(),type=Query(),date=Query()):
+async def add_expenditure(token,name:str = Query(...,),price:str = Query(...,),category=Query(),type=Query(),date=Query()):
     user_token = await verify_token(token)
     return await add_expenditure_into_db(name,price,category,type,date,user_token)
 

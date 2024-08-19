@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from app.data.database import update_query, read_query
-
+from app.utils.helpers import convert_to_float
 
 
 async def register_receipt_in_db(foods,date):
@@ -35,8 +35,9 @@ async def get_expenditures_from_db(start_date,end_date,category,type):
 
 
 async def add_expenditure_into_db(name,price,category,type,date,token):
+    float_price = convert_to_float(price)
     event_date = datetime.strptime(date, '%d.%m.%Y').date()
-    update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',(name,price,category,type,event_date, token.get("user_id")))
+    update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',(name,float_price,category,type,event_date, token.get("user_id")))
     return "Product added successfully "
 
 async def category_expenditures_from_db():

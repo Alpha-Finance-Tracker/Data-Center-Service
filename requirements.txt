@@ -8,3 +8,5 @@ opencv-python
 openai
 python-multipart
 python-jose
+Appium-Python-Client selenium
+

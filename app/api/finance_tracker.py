@@ -1,8 +1,12 @@
+import io
+
+from PIL import Image
 from fastapi import APIRouter, UploadFile, File, Query
 from app.data.queries import add_expenditure_into_db, get_expenditures_from_db, category_expenditures_from_db, \
     food_expenditures_from_db, food_expenditures_by_name_from_db
 from app.utils.auth_verification_services import verify_token
 from app.utils.kaufland_service import kaufland_service
+import fitz
 
 finance_tracker = APIRouter(prefix='/Finance_tracker')
 
@@ -40,6 +44,4 @@ async def food_type_expenditures(token):
 async def food_name_expenditures(token):
     await verify_token(token)
     return await food_expenditures_by_name_from_db()
-
-
 

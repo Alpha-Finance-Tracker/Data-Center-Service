@@ -54,7 +54,7 @@ def extract_info(text):
 
 
 def extract_products(data):
-    product_price_dict = {}
+    product_price_dict = []
 
     # Regular expression to match product names and prices
     product_price_pattern = re.compile(r'^(.*?)(\d+,\d{2})$')
@@ -69,10 +69,8 @@ def extract_products(data):
             product_name = match.group(1).strip()
             price_tag = match.group(2).strip()
             price = convert_to_float(price_tag)
-            if product_name in product_price_dict:
-                product_price_dict[product_name] += price
-            else:
-                product_price_dict[product_name] = price
+            product_price_dict.append({'Name':product_name, 'Price':price})
+
 
 
     return product_price_dict

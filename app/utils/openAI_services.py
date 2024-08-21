@@ -20,6 +20,7 @@ def classify_products(data):
         result = response.choices[0].message.content
         cleaned =  result.strip('```json\n').strip('\n```')
         parsed_data = json.loads(cleaned)
+        print(parsed_data)
         return parsed_data
 
 

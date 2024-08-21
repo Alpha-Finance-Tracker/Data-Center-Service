@@ -1,6 +1,3 @@
-import io
-
-from PIL import Image
 from fastapi import APIRouter, UploadFile, File, Query, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
@@ -8,7 +5,7 @@ from app.data.queries import add_expenditure_into_db, get_expenditures_from_db, 
     food_expenditures_from_db, food_expenditures_by_name_from_db
 from app.utils.auth_verification_services import verify_token
 from app.utils.kaufland_service import kaufland_service
-import fitz
+
 
 finance_tracker = APIRouter(prefix='/Finance_tracker')
 security = HTTPBearer()
@@ -48,17 +45,17 @@ async def biggest_passives(credentials: HTTPAuthorizationCredentials = Depends(s
     return f"To do"
 
 @finance_tracker.get('/category_expenditures')
-async def category_expenditures(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def category_expenditures(interval:str,credentials: HTTPAuthorizationCredentials = Depends(security)):
     await verify_token(credentials.credentials)
-    return await category_expenditures_from_db()
+    return await category_expenditures_from_db(interval)
 
 @finance_tracker.get('/food_type_expenditures')
-async def food_type_expenditures(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def food_type_expenditures(interval:str,credentials: HTTPAuthorizationCredentials = Depends(security)):
     await verify_token(credentials.credentials)
-    return await food_expenditures_from_db()
+    return await food_expenditures_from_db(interval)
 
 @finance_tracker.get('/food_name_expenditures')
-async def food_name_expenditures(credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def food_name_expenditures(interval:str,credentials: HTTPAuthorizationCredentials = Depends(security)):
     await verify_token(credentials.credentials)
-    return await food_expenditures_by_name_from_db()
+    return await food_expenditures_by_name_from_db(interval)
 

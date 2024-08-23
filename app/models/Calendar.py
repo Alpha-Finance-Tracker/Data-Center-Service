@@ -9,7 +9,7 @@ class Calendar(ABC):
 
 class Week(Calendar):
     def interval(self):
-        return f"WEEK(date) = {datetime.now().isocalendar().week}"
+        return f"WEEK(date) = {datetime.now().isocalendar().week -1}"
 
 class Month(Calendar):
     def interval(self):

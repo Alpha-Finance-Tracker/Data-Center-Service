@@ -12,3 +12,14 @@ async def kaufland_service(image,date):
     products = classify_products(product_prices)
     await register_receipt_in_db(products,date)
     return product_prices
+
+
+async def lidl_service(image,date):
+    open_cv_image = await handle_image(image)
+    enhanced_image = preprocess_image(open_cv_image)
+    text = perform_ocr(enhanced_image)
+    extracted_data = extract_info(text)
+    product_prices = extract_products(extracted_data)
+    products = classify_products(product_prices)
+    await register_receipt_in_db(products,date)
+    return product_prices

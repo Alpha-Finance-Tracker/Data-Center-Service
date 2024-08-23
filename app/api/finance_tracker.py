@@ -4,19 +4,26 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.data.queries import add_expenditure_into_db, get_expenditures_from_db, category_expenditures_from_db, \
     food_expenditures_from_db, food_expenditures_by_name_from_db
 from app.utils.auth_verification_services import verify_token
-from app.utils.kaufland_service import kaufland_service
-
+from app.utils.kaufland_service import kaufland_service, lidl_service
 
 finance_tracker = APIRouter(prefix='/Finance_tracker')
 security = HTTPBearer()
 
-@finance_tracker.post('/receipt')
+@finance_tracker.post('/kaufland_receipt')
 async def kaufland_receipt(image: UploadFile = File(...),
                            date = Query(...,),
                            credentials: HTTPAuthorizationCredentials = Depends(security)):
 
     await verify_token(credentials.credentials)
     return await kaufland_service(image,date)
+
+@finance_tracker.post('/lidl_receipt')
+async def lidl_receipt(image: UploadFile = File(...),
+                           date = Query(...,),
+                           credentials: HTTPAuthorizationCredentials = Depends(security)):
+
+    await verify_token(credentials.credentials)
+    return await lidl_service(image,date)
 
 @finance_tracker.put('/update')
 async def add_expenditure(name:str = Query(...,),

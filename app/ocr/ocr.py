@@ -38,7 +38,7 @@ def preprocess_image(image):
 
 
 def perform_ocr(image):
-    # Perform OCR using Tesseract with multiple languages
+
     text = pytesseract.image_to_string(image, lang='bul+eng')  # Use 'bul+eng' for Bulgarian and English
     return text
 

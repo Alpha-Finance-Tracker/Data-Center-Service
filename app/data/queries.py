@@ -42,10 +42,8 @@ async def add_expenditure_into_db(name,price,category,type,date,token):
     return "Product added successfully "
 
 async def category_expenditures_from_db(interval):
-    # Get the time period condition from the selected interval
     time_period = interval_selector(interval).interval()
 
-    # Properly format the query
     query = f"""
     SELECT category, ROUND(SUM(price), 2) as total_price
     FROM expenditures
@@ -54,11 +52,11 @@ async def category_expenditures_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    # Fetch data from the database
+
     data =  read_query(query)
     print(data)
 
-    # Process the data
+
     output = {}
     for row in data:
         if row[0] == "":
@@ -70,10 +68,8 @@ async def category_expenditures_from_db(interval):
 
 
 async def food_expenditures_from_db(interval):
-    # Get the time period condition from the selected interval
     time_period = interval_selector(interval).interval()
 
-    # Properly format the query with the category parameter
     category = 'Food'
     query = f"""
     SELECT type, ROUND(SUM(price), 2) as total_price
@@ -83,11 +79,11 @@ async def food_expenditures_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    # Fetch data from the database
+
     data =  read_query(query)
     print(data)
 
-    # Process the data
+
     output = {}
     for row in data:
         if row[0] in output:
@@ -99,10 +95,10 @@ async def food_expenditures_from_db(interval):
 
 
 async def food_expenditures_by_name_from_db(interval):
-    # Get the time period condition from the selected interval
+
     time_period = interval_selector(interval).interval()
 
-    # Properly format the query with the category parameter
+
     category = 'Food'
     query = f"""
     SELECT name, ROUND(SUM(price), 2) as total_price
@@ -112,11 +108,9 @@ async def food_expenditures_by_name_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    # Fetch data from the database
     data = read_query(query)
     print(data)
 
-    # Process the data
     output = {}
     for row in data:
         if row[0] in output:

@@ -5,5 +5,3 @@ class Calendar(ABC):
     @abstractmethod
     def interval(self):
         pass
-
-

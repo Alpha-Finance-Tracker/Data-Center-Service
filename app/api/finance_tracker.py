@@ -1,7 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, Query, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-from app.data.queries import add_expenditure_into_db, get_expenditures_from_db, category_expenditures_from_db, \
+from app.data_streams.queries import add_expenditure_into_db, get_expenditures_from_db, category_expenditures_from_db, \
     food_expenditures_from_db, food_expenditures_by_name_from_db
 from app.utils.auth_verification_services import verify_token
 from app.utils.kaufland_service import kaufland_service, lidl_service
@@ -30,26 +30,21 @@ async def lidl_receipt(image: UploadFile = File(...),
 async def add_expenditure(name: str = Query(..., ),
                           price: str = Query(..., ),
                           category=Query(),
-                          type=Query(),
+                          expenditure_type=Query(),
                           date=Query(),
                           credentials: HTTPAuthorizationCredentials = Depends(security)):
     user_token = await verify_token(credentials.credentials)
-    return await add_expenditure_into_db(name, price, category, type, date, user_token)
+    return await add_expenditure_into_db(name, price, category, expenditure_type, date, user_token)
 
 
 @finance_tracker.get('/expenditures')
 async def expenditures_from_date_to_date(start_date,
                                          end_date,
                                          category,
-                                         type,
+                                         expenditure_type,
                                          credentials: HTTPAuthorizationCredentials = Depends(security)):
     await verify_token(credentials.credentials)
-    return await get_expenditures_from_db(start_date, end_date, category, type)
-
-
-@finance_tracker.get('/biggest_passives')
-async def biggest_passives(credentials: HTTPAuthorizationCredentials = Depends(security)):
-    return f"To do"
+    return await get_expenditures_from_db(start_date, end_date, category, expenditure_type)
 
 
 @finance_tracker.get('/category_expenditures')

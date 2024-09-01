@@ -9,9 +9,10 @@ from app.utils.helpers import convert_to_float
 # Update this path to where Tesseract is installed on your system
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+
 #
 # pytesseract.pytesseract.tesseract_cmd = '/usr/bin/tesseract'
-
 
 
 async def handle_image(file):
@@ -38,7 +39,6 @@ def preprocess_image(image):
 
 
 def perform_ocr(image):
-
     text = pytesseract.image_to_string(image, lang='bul+eng')  # Use 'bul+eng' for Bulgarian and English
     return text
 
@@ -69,10 +69,6 @@ def extract_products(data):
             product_name = match.group(1).strip()
             price_tag = match.group(2).strip()
             price = convert_to_float(price_tag)
-            product_price_dict.append({'Name':product_name, 'Price':price})
-
-
+            product_price_dict.append({'Name': product_name, 'Price': price})
 
     return product_price_dict
-
-

@@ -12,7 +12,7 @@ class Periods:
     YEAR = 'Year'
     TOTAL = 'Total'
 
-    def __init__(self,interval):
+    def __init__(self, interval):
         self.interval = interval
         self.calendar_map = {
             self.WEEK: self.week,
@@ -21,6 +21,7 @@ class Periods:
             self.YEAR: self.year,
             self.TOTAL: self.total
         }
+
     @property
     def week(self):
         return Week().interval()
@@ -43,5 +44,3 @@ class Periods:
 
     def get_period(self):
         return self.calendar_map.get(self.interval)
-
-

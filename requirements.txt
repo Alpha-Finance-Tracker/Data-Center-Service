@@ -8,5 +8,5 @@ opencv-python
 openai
 python-multipart
 python-jose
-
+numpy
 

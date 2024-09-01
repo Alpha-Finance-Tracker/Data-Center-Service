@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.data.database import update_query, read_query
+from app.database import update_query, read_query
 from app.models.base_models.periods import Periods
 from app.utils.helpers import convert_to_float
 
@@ -8,40 +8,44 @@ from app.utils.helpers import convert_to_float
 async def register_receipt_in_db(foods, date):
     event_date = datetime.strptime(date, '%d.%m.%Y').date()
     for pair in foods:
-        update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
-                     (pair['Name'], pair['Price'], 'Food', pair['Type'], event_date, 8))
+        await update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
+                           (pair['Name'], pair['Price'], 'Food', pair['Type'], event_date, 8))
 
 
-async def get_expenditures_from_db(start_date, end_date, category, type):
+async def get_expenditures_from_db(start_date, end_date, category, expenditure_type):
     if category and type:
-        products = read_query(
+        products = await read_query(
             'SELECT name,price FROM expenditures WHERE  category = %s AND type = %s AND date BETWEEN %s AND %s',
-            (category, type, start_date, end_date))
-        total_spent = read_query(
+            (category, expenditure_type, start_date, end_date))
+        total_spent = await read_query(
             'SELECT SUM(price) FROM expenditures WHERE category = %s AND type = %s AND date BETWEEN %s AND %s',
-            (category, type, start_date, end_date))
+            (category, expenditure_type, start_date, end_date))
         return {f"Monthly Total Spent {total_spent[0][0]} BGN": products}
 
     if type:
-        products = read_query('SELECT name,price FROM expenditures WHERE type = %s AND date BETWEEN %s AND %s',
-                              (type, start_date, end_date))
-        total_spent = read_query('SELECT SUM(price) FROM expenditures WHERE type = %s AND  date BETWEEN %s AND %s',
-                                 (type, start_date, end_date))
+        products = await read_query('SELECT name,price FROM expenditures WHERE type = %s AND date BETWEEN %s AND %s',
+                                    (expenditure_type, start_date, end_date))
+        total_spent = await read_query(
+            'SELECT SUM(price) FROM expenditures WHERE type = %s AND  date BETWEEN %s AND %s',
+            (expenditure_type, start_date, end_date))
         return {f"Monthly Total Spent {total_spent[0][0]} BGN": products}
 
     if category:
-        products = read_query('SELECT name,price FROM expenditures WHERE  category = %s AND date BETWEEN %s AND %s',
-                              ('food', start_date, end_date))
-        total_spent = read_query('SELECT SUM(price) FROM expenditures WHERE category = %s AND  date BETWEEN %s AND %s',
-                                 ('food', start_date, end_date))
+        products = await read_query(
+            'SELECT name,price FROM expenditures WHERE  category = %s AND date BETWEEN %s AND %s',
+            ('food', start_date, end_date))
+        total_spent = await read_query(
+            'SELECT SUM(price) FROM expenditures WHERE category = %s AND  date BETWEEN %s AND %s',
+            ('food', start_date, end_date))
         return {f"Monthly Total Spent {total_spent[0][0]} BGN": products}
 
 
-async def add_expenditure_into_db(name, price, category, type, date, token):
+async def add_expenditure_into_db(name, price, category, expenditure_type, date, token):
     float_price = convert_to_float(price)
     event_date = datetime.strptime(date, '%d.%m.%Y').date()
-    update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
-                 (name, float_price, category, type, event_date, token.get("user_id")))
+
+    await update_query('INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
+                       (name, float_price, category, expenditure_type, event_date, token.get("user_id")))
     return "Product added successfully "
 
 
@@ -56,8 +60,7 @@ async def category_expenditures_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    data = read_query(query)
-    print(data)
+    data = await read_query(query)
 
     output = {}
     for row in data:
@@ -81,8 +84,7 @@ async def food_expenditures_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    data = read_query(query)
-    print(data)
+    data = await read_query(query)
 
     output = {}
     for row in data:
@@ -106,8 +108,7 @@ async def food_expenditures_by_name_from_db(interval):
     ORDER BY total_price DESC
     """
 
-    data = read_query(query)
-    print(data)
+    data = await read_query(query)
 
     output = {}
     for row in data:

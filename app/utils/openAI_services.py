@@ -6,9 +6,8 @@ load_dotenv()
 client = OpenAI()
 
 
-
 def classify_products(data):
-    foods = ['Vegetables','Fruits','Nuts','Animal','Dairy','Beverages','Pastries']
+    foods = ['Vegetables', 'Fruits', 'Nuts', 'Animal', 'Dairy', 'Beverages', 'Pastries']
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini",
@@ -18,7 +17,7 @@ def classify_products(data):
             ]
         )
         result = response.choices[0].message.content
-        cleaned =  result.strip('```json\n').strip('\n```')
+        cleaned = result.strip('```json\n').strip('\n```')
         parsed_data = json.loads(cleaned)
         print(parsed_data)
         return parsed_data

@@ -1,12 +1,20 @@
 from datetime import datetime
-from pydantic import BaseModel, Field, field_validator
 
-class KauflandReceipt(BaseModel):
-    date: str = Field(..., )
+from app.models.data_validators.image import ImageValidator
 
-    @field_validator('date', mode='after')
-    def validate_date_format(cls, value):
+
+class KauflandReceiptValidator:
+
+    def __init__(self,date,image):
+        self.date = date
+        self.image = image
+
+    async def validate_image(self):
+        return await ImageValidator().validate_image(self.image)
+
+
+    async def validate_date(self):
         try:
-            return datetime.strptime(value, '%d.%m.%Y').date()
+            return datetime.strptime(self.date, '%d.%m.%Y').date()
         except ValueError:
             raise ValueError("Date must be in the format 'dd.mm.yyyy'")

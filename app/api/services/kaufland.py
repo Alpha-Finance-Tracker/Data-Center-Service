@@ -1,27 +1,29 @@
 from app.database import update_query
-from app.models.data_validators.image import ImageValidator
+from app.models.data_validators.kaufland_receipt import KauflandReceiptValidator
 from app.models.ocr import OCR
 
 
 class Kaufland:
 
-    def __init__(self, data, image):
-        self.date = data.date
+    def __init__(self, date, image):
+        self.date = date
         self.image = image
+        self.kaufland_receipt_validator = KauflandReceiptValidator(self.date,self.image)
 
-    @property
-    def validated_image(self):
-        return ImageValidator().validate_image(self.image)
-
-    async def extract_data(self):
-        return await OCR(self.validated_image).perform_image_to_product_extraction()
 
     async def register_receipt(self):
-        receipt_products = await self.extract_data()
-        return await self.store_receipt(receipt_products)
+        receipt_products = await self._extract_data()
+        await self._store_receipt(receipt_products)
+        return {'message':'Receipt registered successfully.'}
 
-    async def store_receipt(self,receipt_data):
+    async def _extract_data(self):
+        image = await self.kaufland_receipt_validator.validate_image()
+        return await OCR().perform_image_to_product_extraction(image)
+
+    async def _store_receipt(self,receipt_data):
+        date_of_purchase = await self.kaufland_receipt_validator.validate_date()
+
         for pair in receipt_data:
             await update_query(
                 'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
-                (pair['Name'], pair['Price'], 'Food', pair['Type'], self.date, 8))
+                (pair['Name'], pair['Price'], 'Food', pair['Type'], date_of_purchase, 8))

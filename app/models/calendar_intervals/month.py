@@ -3,5 +3,5 @@ from datetime import datetime
 
 class Month(Calendar):
 
-    async def interval(self):
+    def interval(self):
         return f'MONTH(date) = {datetime.now().month}'

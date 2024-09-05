@@ -3,16 +3,22 @@ from datetime import datetime
 from pydantic import BaseModel, Field, field_validator
 
 class ExpenditureRegistration(BaseModel):
-    name: str = Field(...,gt=0,max_length=45)
-    price: float = Field(...,gt=0)
+    name: str = Field(...,)
+    price: float = Field(...,)
     category: str = Field(...,)
     expenditure_type: str = Field(...,)
     date: str = Field(..., )
 
+
+    @field_validator('name',mode='after')
+    def validate_name(cls, value):
+        if len(value) == 0 or len(value) > 45:
+            raise ValueError('Name must be between 1 and 45 characters')
+        return value
+
     @field_validator('date', mode='after')
     def validate_date_format(cls, value):
         try:
-            # Convert the string to a datetime object using the given format
             return datetime.strptime(value, '%d.%m.%Y').date()
         except ValueError:
             raise ValueError("Date must be in the format 'dd.mm.yyyy'")
@@ -21,7 +27,7 @@ class ExpenditureRegistration(BaseModel):
     def validate_price(cls, value):
         if value < 0:
             raise ValueError('Price must be a positive number')
-        return float(value.replace(',', '.'))
+        return value
 
     @field_validator('category', mode='after')
     def validate_category(cls, value):
@@ -29,11 +35,14 @@ class ExpenditureRegistration(BaseModel):
 
         if value not in categories:
             raise ValueError('Category not allowed!')
+        return value
 
     @field_validator('expenditure_type', mode='after')
     def validate_expenditure_type(cls, value):
-        expenditure_typs = {'Animal', 'Dairy', 'Nuts', 'Vegetables', 'Beverages', 'Communications', 'Electricity',
+        print(value)
+        expenditure_types = {'Animal', 'Dairy', 'Nuts', 'Vegetables','Fruit','Beverages', 'Communications', 'Electricity',
                             'Water'}
 
-        if value not in expenditure_typs:
+        if value not in expenditure_types:
             raise ValueError('Expenditure type not allowed!')
+        return value

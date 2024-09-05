@@ -7,7 +7,7 @@ class OpenAiService:
     def __init__(self):
         self.client = OpenAI()
 
-    def classify_products(self, data):
+    async def classify_products(self, data):
         foods = ['Vegetables', 'Fruits', 'Nuts', 'Animal', 'Dairy', 'Beverages', 'Pastries']
         try:
             response = self.client.chat.completions.create(
@@ -20,7 +20,6 @@ class OpenAiService:
             result = response.choices[0].message.content
             cleaned = result.strip('```json\n').strip('\n```')
             parsed_data = json.loads(cleaned)
-            print(parsed_data)
             return parsed_data
 
 

@@ -22,7 +22,7 @@ class Expenditures:
         await update_query(
             'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
             (self.data.name, self.data.price, self.data.category, self.data.expenditure_type, self.data.date, user_id))
-        return "Product added successfully "
+        return {'message':'Product added successfully'}
 
     async def retrieve_data(self):
         time_period = await Periods(self.data.interval).get_period()
@@ -31,9 +31,9 @@ class Expenditures:
             return await read_query(f"""
                            SELECT {self.data.column_type}, ROUND(SUM(price), 2) as total_price
                            FROM expenditures
-                           WHERE category = {self.data.category} AND {time_period}
+                           WHERE category = %s AND {time_period}
                            GROUP BY {self.data.column_type}
-                           ORDER BY total_price DESC """)
+                           ORDER BY total_price DESC """,(self.data.category,))
         else:
             return await read_query(f"""
                            SELECT category, ROUND(SUM(price), 2) as total_price

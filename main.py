@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 
-from app.api.finance_tracker import finance_tracker
+from app.api.routers.finance_tracker import finance_tracker
 
 app = FastAPI()
 

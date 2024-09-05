@@ -1,12 +1,12 @@
-fastapi
-uvicorn
-python-dotenv
-mysql-connector-python
-mysqlclient
-pytesseract
-opencv-python
-openai
-python-multipart
-python-jose
-numpy
+fastapi==0.112.0
+uvicorn==0.30.5
+python-dotenv==1.0.1
+mysql-connector-python==9.0.0
+mysqlclient==2.2.4
+pytesseract==0.3.10
+opencv-python==4.10.0.84
+openai==1.40.0
+python-multipart==0.0.9
+python-jose==3.3.0
+numpy==2.0.1
 

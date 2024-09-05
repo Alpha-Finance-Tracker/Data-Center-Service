@@ -42,5 +42,5 @@ class Periods:
     def total(self):
         return Total().interval()
 
-    def get_period(self):
+    async def get_period(self):
         return self.calendar_map.get(self.interval)

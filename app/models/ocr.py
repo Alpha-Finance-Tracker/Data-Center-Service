@@ -6,6 +6,7 @@ import pytesseract
 import numpy as np
 
 from app.models.open_ai import OpenAiService
+from app.utils.responses import InternalServerError
 
 pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -66,5 +67,5 @@ class OCR:
             parsed_data = await self.parse_product_information(extracted_data)
             classified_products = await OpenAiService().classify_products(parsed_data)
             return classified_products
-        except Exception as e:
-            raise e
+        except InternalServerError:
+            raise InternalServerError()

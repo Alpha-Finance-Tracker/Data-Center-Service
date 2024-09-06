@@ -35,12 +35,8 @@ class OCR:
 
     async def split_text_into_lines(self, text):
         lines = text.strip().split('\n')
-        data = []
+        return [line for line in lines]
 
-        for line in lines:
-            data.append(line)
-
-        return data
 
     async def parse_product_information(self, data):
         product_price_dict = []

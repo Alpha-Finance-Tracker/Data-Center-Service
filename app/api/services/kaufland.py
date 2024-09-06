@@ -8,22 +8,26 @@ class Kaufland:
     def __init__(self, date, image):
         self.date = date
         self.image = image
-        self.kaufland_receipt_validator = KauflandReceiptValidator(self.date,self.image)
+        self.validated_image = None
+        self.validated_date = None
+
+    async def validate_image_and_date(self):
+        self.validated_image = await KauflandReceiptValidator(self.date, self.image).validate_image()
+        self.validated_date = await KauflandReceiptValidator(self.date, self.image).validate_date()
 
 
     async def register_receipt(self):
+        await self.validate_image_and_date()
+
         receipt_products = await self._extract_data()
         await self._store_receipt(receipt_products)
         return {'message':'Receipt registered successfully.'}
 
     async def _extract_data(self):
-        image = await self.kaufland_receipt_validator.validate_image()
-        return await OCR().perform_image_to_product_extraction(image)
+        return await OCR().perform_image_to_product_extraction(self.validated_image)
 
     async def _store_receipt(self,receipt_data):
-        date_of_purchase = await self.kaufland_receipt_validator.validate_date()
-
         for pair in receipt_data:
             await update_query(
                 'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
-                (pair['Name'], pair['Price'], 'Food', pair['Type'], date_of_purchase, 8))
+                (pair['Name'], pair['Price'], 'Food', pair['Type'], self.validated_date, 8))

@@ -10,13 +10,17 @@ class Expenditures:
     async def display(self):
         data = await self.retrieve_data()
         output = {}
+        try:
+            for row in data:
+                if row[0] == "":
+                    output['Total'] = row[1]
+                else:
+                    output[row[0]] = row[1]
+            return output
+        except Exception as e:
+            print('No data found')
+            return {}
 
-        for row in data:
-            if row[0] == "":
-                output['Total'] = row[1]
-            else:
-                output[row[0]] = row[1]
-        return output
 
     async def register(self, user_id):
         await update_query(

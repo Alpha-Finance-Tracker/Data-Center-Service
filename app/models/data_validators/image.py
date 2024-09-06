@@ -7,13 +7,11 @@ class ImageValidator:
     async def validate_image(file):
         try:
             file_bytes = await file.read()
-            image = Image.open(BytesIO(file_bytes))
+            if len(file_bytes) > 4 * 1024 * 1024:  # 4 MB
+                raise ValueError('File size exceeds 4 MB limit')
 
-            if image.format not in {'JPEG', 'PNG', 'GIF'}:
-                raise ValueError("Unsupported image format")
-
-            if len(file_bytes) > 5 * 1024 * 1024:  # 5 MB
-                raise ValueError("File size exceeds 5 MB limit")
+            if file.content_type not in {'image/jpeg', 'image/png'}:
+                raise ValueError('Unsupported image format')
 
             await file.seek(0)
             return file

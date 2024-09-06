@@ -20,7 +20,7 @@ async def kaufland_receipt(date,
     return await Kaufland(date, image).register_receipt()
 
 
-@finance_tracker.put('/update')
+@finance_tracker.post('/update')
 async def add_expenditure(data: ExpenditureRegistration,
                           credentials: HTTPAuthorizationCredentials = Depends(security)):
     user_token = await verify_token(credentials.credentials)

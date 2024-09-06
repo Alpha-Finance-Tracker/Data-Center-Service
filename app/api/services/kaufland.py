@@ -1,3 +1,5 @@
+import logging
+
 from app.database import update_query
 from app.models.data_validators.kaufland_receipt import KauflandReceiptValidator
 from app.models.ocr import OCR
@@ -28,6 +30,9 @@ class Kaufland:
 
     async def _store_receipt(self,receipt_data):
         for pair in receipt_data:
-            await update_query(
-                'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
-                (pair['Name'], pair['Price'], 'Food', pair['Type'], self.validated_date, 8))
+            try:
+                await update_query(
+                    'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s, %s,%s,%s)',
+                    (pair['Name'], pair['Price'], 'Food', pair['Type'], self.validated_date, 8))
+            except Exception as e:
+                logging.error('Data received from OpenAI, does not match the expected format',e)

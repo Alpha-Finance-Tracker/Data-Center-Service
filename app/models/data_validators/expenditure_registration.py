@@ -2,31 +2,26 @@ from datetime import datetime
 
 from pydantic import BaseModel, Field, field_validator
 
+from app.utils.responses import BadRequest, ProcessableEntity
+
+
 class ExpenditureRegistration(BaseModel):
-    name: str = Field(...,)
-    price: float = Field(...,)
-    category: str = Field(...,)
-    expenditure_type: str = Field(...,)
+    name: str = Field(..., )
+    price: float = Field(..., )
+    category: str = Field(..., )
+    expenditure_type: str = Field(..., )
     date: str = Field(..., )
 
-
-    @field_validator('name',mode='after')
+    @field_validator('name', mode='after')
     def validate_name(cls, value):
         if len(value) == 0 or len(value) > 45:
-            raise ValueError('Name must be between 1 and 45 characters')
+            raise BadRequest('Name must be between 1 and 45 characters')
         return value
-
-    @field_validator('date', mode='after')
-    def validate_date_format(cls, value):
-        try:
-            return datetime.strptime(value, '%d.%m.%Y').date()
-        except ValueError:
-            raise ValueError("Date must be in the format 'dd.mm.yyyy'")
 
     @field_validator('price', mode='after')
     def validate_price(cls, value):
         if value < 0:
-            raise ValueError('Price must be a positive number')
+            raise BadRequest('Price must be a positive number')
         return value
 
     @field_validator('category', mode='after')
@@ -34,15 +29,23 @@ class ExpenditureRegistration(BaseModel):
         categories = {'Food', 'Entertainment', 'Health', 'Transport', 'Home', 'Sport'}
 
         if value not in categories:
-            raise ValueError('Category not allowed!')
+            raise BadRequest('Category not allowed!')
         return value
 
     @field_validator('expenditure_type', mode='after')
     def validate_expenditure_type(cls, value):
         print(value)
-        expenditure_types = {'Animal', 'Dairy', 'Nuts', 'Vegetables','Fruit','Beverages', 'Communications', 'Electricity',
-                            'Water'}
+        expenditure_types = {'Animal', 'Dairy', 'Nuts', 'Vegetables', 'Fruit', 'Beverages', 'Communications',
+                             'Electricity',
+                             'Water'}
 
         if value not in expenditure_types:
-            raise ValueError('Expenditure type not allowed!')
+            raise BadRequest('Expenditure type not allowed!')
         return value
+
+    @field_validator('date', mode='after')
+    def validate_date_format(cls, value):
+        try:
+            return datetime.strptime(value, '%d.%m.%Y').date()
+        except ValueError:
+            raise ProcessableEntity('Date must be in the format dd.mm.yyyy')

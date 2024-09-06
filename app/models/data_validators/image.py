@@ -1,6 +1,8 @@
 from io import BytesIO
 from PIL import Image
 
+from app.utils.responses import UnsupportedImageFormat, FileSizeLimit
+
 
 class ImageValidator:
     @staticmethod
@@ -8,10 +10,10 @@ class ImageValidator:
         try:
             file_bytes = await file.read()
             if len(file_bytes) > 4 * 1024 * 1024:  # 4 MB
-                raise ValueError('File size exceeds 4 MB limit')
+                raise FileSizeLimit()
 
             if file.content_type not in {'image/jpeg', 'image/png'}:
-                raise ValueError('Unsupported image format')
+                raise UnsupportedImageFormat()
 
             await file.seek(0)
             return file

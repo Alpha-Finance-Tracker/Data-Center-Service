@@ -10,3 +10,5 @@ expenditures_mock_data = [('Dairy',17.82),('Animal',16.62),('Beverages',10.95),(
 large_mock_file = {'image': ('large_image.jpg', io.BytesIO( b'x' * (5 * 1024 * 1024)), 'image/jpeg')}
 small_mock_file =  {'image': ('large_image.jpg', io.BytesIO( b'x' * (1 * 1024 * 1024)), 'image/jpeg')}
 invalid_mock_file = {'image': ('large_image.jpg', io.BytesIO( b'x' * (1 * 1024 * 1024)), 'image/webp')}
+mock_expenditure = {'name':'Pineapple','price':3.33, 'category':'Food','expenditure_type':'Fruit','date':'12.12.2024'}
+mock_view_expenditures ={'interval':'Month','column_type':'Optional','category':'Optional'}

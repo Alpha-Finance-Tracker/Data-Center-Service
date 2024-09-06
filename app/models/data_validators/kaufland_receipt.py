@@ -1,6 +1,7 @@
 from datetime import datetime
 
 from app.models.data_validators.image import ImageValidator
+from app.utils.responses import DateFormat
 
 
 class KauflandReceiptValidator:
@@ -16,5 +17,5 @@ class KauflandReceiptValidator:
     async def validate_date(self):
         try:
             return datetime.strptime(self.date, '%d.%m.%Y').date()
-        except ValueError:
-            raise ValueError("Date must be in the format 'dd.mm.yyyy'")
+        except Exception:
+            raise DateFormat()

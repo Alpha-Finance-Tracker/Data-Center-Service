@@ -17,16 +17,8 @@ class Expenditures:
                 else:
                     output[row[0]] = row[1]
             return output
-        except Exception as e:
-            print('No data found')
+        except:
             return {}
-
-
-    async def register(self, user_id):
-        await update_query(
-            'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
-            (self.data.name, self.data.price, self.data.category, self.data.expenditure_type, self.data.date, user_id))
-        return {'message':'Product added successfully'}
 
     async def retrieve_data(self):
         time_period = await Periods(self.data.interval).get_period()
@@ -37,7 +29,7 @@ class Expenditures:
                            FROM expenditures
                            WHERE category = %s AND {time_period}
                            GROUP BY {self.data.column_type}
-                           ORDER BY total_price DESC """,(self.data.category,))
+                           ORDER BY total_price DESC """, (self.data.category,))
         else:
             return await read_query(f"""
                            SELECT category, ROUND(SUM(price), 2) as total_price
@@ -45,3 +37,9 @@ class Expenditures:
                            WHERE {time_period}
                            GROUP BY category
                            ORDER BY total_price DESC""")
+
+    async def register(self, user_id):
+        await update_query(
+            'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
+            (self.data.name, self.data.price, self.data.category, self.data.expenditure_type, self.data.date, user_id))
+        return {'message': 'Product added successfully'}

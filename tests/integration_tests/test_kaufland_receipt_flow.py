@@ -28,7 +28,7 @@ async def test_kaufland_receipt_workflow_when_file_exceeds_4MB():
     params = {'date': '06.09.2024'}
     async with AsyncClient(app=app, base_url="http://testserver") as client:
         response = await client.post('/Finance_tracker/kaufland_receipt', params=params, files=files,
-                              headers={'Authorization': f'Bearer {valid_mock_access_token}'})
+                                     headers={'Authorization': f'Bearer {valid_mock_access_token}'})
 
     assert response.status_code == 413
     assert response.json()['detail'] == 'File size exceeds 4 MB limit'
@@ -40,7 +40,7 @@ async def test_kaufland_receipt_workflow_when_file_format_invalid():
     params = {'date': '06.09.2024'}
     async with AsyncClient(app=app, base_url="http://testserver") as client:
         response = await client.post('/Finance_tracker/kaufland_receipt', params=params, files=files,
-                              headers={'Authorization': f'Bearer {valid_mock_access_token}'})
+                                     headers={'Authorization': f'Bearer {valid_mock_access_token}'})
 
     assert response.status_code == 415
     assert response.json()['detail'] == 'Unsupported image format'
@@ -51,9 +51,8 @@ async def test_kaufland_receipt_workflow_when_date_format_invalid():
     files = small_mock_file
     params = {'date': '2024-06-09'}
     async with AsyncClient(app=app, base_url="http://testserver") as client:
-
-       response = await client.post('/Finance_tracker/kaufland_receipt', params=params, files=files,
-                              headers={'Authorization': f'Bearer {valid_mock_access_token}'})
+        response = await client.post('/Finance_tracker/kaufland_receipt', params=params, files=files,
+                                     headers={'Authorization': f'Bearer {valid_mock_access_token}'})
 
     assert response.status_code == 422
     assert response.json()['detail'] == 'Date must be in the format dd.mm.yyyy'
@@ -83,5 +82,3 @@ async def test_kaufland_receipt_workflow_from_start_to_end(mocker):
                                      headers={'Authorization': f'Bearer {valid_mock_access_token}'})
 
     assert response.status_code == 200
-
-

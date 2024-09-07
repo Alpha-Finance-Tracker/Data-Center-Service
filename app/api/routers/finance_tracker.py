@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, Depends, Query
+from fastapi import APIRouter, UploadFile, File, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.models.data_validators.expenditure_display import ExpenditureDisplay

@@ -38,4 +38,3 @@ class DateFormat(HTTPException):
 class ProcessableEntity(HTTPException):
     def __init__(self, content='Unprocessable Entity'):
         super().__init__(status_code=422, detail=content)
-

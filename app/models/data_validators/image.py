@@ -1,6 +1,3 @@
-from io import BytesIO
-from PIL import Image
-
 from app.utils.responses import UnsupportedImageFormat, FileSizeLimit
 
 

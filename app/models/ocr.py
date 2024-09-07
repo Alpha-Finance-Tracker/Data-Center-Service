@@ -15,29 +15,27 @@ pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tessera
 
 class OCR:
 
-    async def convert_file_to_opencv_image(self,file):
-        file_content =  await file.read()
+    async def convert_file_to_opencv_image(self, file):
+        file_content = await file.read()
         image = Image.open(BytesIO(file_content))
         open_cv_image = np.array(image)
         if open_cv_image.ndim == 3:
             open_cv_image = cv2.cvtColor(open_cv_image, cv2.COLOR_RGB2BGR)
-        self.image = open_cv_image
         return open_cv_image
 
-    async def threshold_and_invert_image(self,open_cv_image):
+    async def threshold_and_invert_image(self, open_cv_image):
         gray = cv2.cvtColor(open_cv_image, cv2.COLOR_BGR2GRAY)
         _, thresh = cv2.threshold(gray, 150, 255, cv2.THRESH_BINARY_INV)
         thresh = cv2.bitwise_not(thresh)
         return thresh
 
-    async def extract_text_from_image(self,inverted_image):
+    async def extract_text_from_image(self, inverted_image):
         text = pytesseract.image_to_string(inverted_image, lang='bul+eng')
         return text
 
     async def split_text_into_lines(self, text):
         lines = text.strip().split('\n')
         return [line for line in lines]
-
 
     async def parse_product_information(self, data):
         product_price_dict = []
@@ -57,7 +55,7 @@ class OCR:
 
         return product_price_dict
 
-    async def perform_image_to_product_extraction(self,image):
+    async def perform_image_to_product_extraction(self, image):
         try:
             open_cv_image = await self.convert_file_to_opencv_image(image)
             inverted_image = await self.threshold_and_invert_image(open_cv_image)

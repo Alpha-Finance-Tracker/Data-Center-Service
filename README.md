@@ -52,9 +52,6 @@ image: The receipt image in the form of an uploaded file.
 Authorization: JWT token required in the Authorization header.
 Response: Confirmation of receipt registration.
 
-
-2. Add Expenditure
-POST /Finance_tracker/update
 ### 2. Add Expenditure
 **POST** /Finance_tracker/update
 

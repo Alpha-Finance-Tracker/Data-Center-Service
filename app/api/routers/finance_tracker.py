@@ -39,8 +39,8 @@ async def add_expenditure(data: ExpenditureRegistration,
     - `name` (str): Name of the expenditure.
     - `price` (float): Amount spent.
     - `category` (str): Category of expenditure.
-    - `expenditure_type` (str): Type of expenditure (e.g., "groceries", "bills").
-    - `date` (str): Date of the expenditure.
+    - `expenditure_type` (str): Type of expenditure
+    - `date` (str): Date of the expenditure. dd.mm.yyyy
 
     Args:
     - data (ExpenditureRegistration): The expenditure details.

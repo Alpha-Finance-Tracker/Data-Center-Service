@@ -45,7 +45,7 @@ DA:16,0,7i+gH6tzBMM/xvgfeWmozg
 DA:20,0,3YMCPDRRiTd7NrrdXZvSGQ
 DA:21,0,/epQTfp1jOvjGFsvUkRYHA
 DA:24,0,GxCucdcvuizmnJMl+for1Q
-DA:26,0,BKXfGii+oaNQ/+dJWyRyRA
+DA:26,0,OddHzT/okRF4LN5V9zr/dA
 DA:27,0,LS87XnzJYC77j/8T2g4SGA
 DA:34,0,LS87XnzJYC77j/8T2g4SGA
 DA:42,0,TllS8kl450Us9Kcm5EIknQ
@@ -74,15 +74,15 @@ DA:23,1,Oh4Vw9EZzI3t5/oVFdVGAg
 DA:24,1,CHLyeJcG9LgH/D/sjnFh+A
 DA:25,1,JKjzdpaTWahNhxHWKyZXww
 DA:27,1,39i/gBQogd+vxnPHJKI7eg
+DA:28,1,e1oLPw3COo+SQoEKGMcz/A
 DA:30,1,KEL/vFyVu/RjV69M0sGRQg
-DA:28,0,e1oLPw3COo+SQoEKGMcz/A
 DA:31,0,1CqPnZypi8lLs9FaAZn/2Q
 DA:32,0,xvWIcpcyNr0gyGcTkdMxXw
 DA:33,0,TJL0ZfDUJxDkuEGmgrhxzw
 DA:36,0,NrDAqEqcJtvmQgQDEuBvhQ
 DA:37,0,wf8zikaOOYtdJWqIDWMkDQ
 LF:26
-LH:20
+LH:21
 end_of_record
 TN:
 SF:C:\Python Projects\Alpha-Finance-Tracker\Finance-Tracker-Service\app\database.py
@@ -270,12 +270,13 @@ DA:44,1,BorTe+0HQpcr3zDD5zth5A
 DA:46,1,IJgwY8MHKyN6AtG4uBs3eg
 DA:47,1,MhL54lUxzGT7ZWTvGACmaA
 DA:48,1,xjcDBnSwra0OiNOAYAwoHA
-DA:49,1,MD81/srjZeINouylZUMQqg
-DA:50,1,MQAw7ryZXIqoa+XVvQuYKQ
-DA:51,1,kDEp+5FXaxwqtt+iGUdTKg
+DA:49,1,zbb4p8an3RPCMyJtaPnnhA
+DA:50,1,QbCc9vDvRJ3sCN1a8GjHWw
+DA:51,1,MQAw7ryZXIqoa+XVvQuYKQ
+DA:52,1,kDEp+5FXaxwqtt+iGUdTKg
 DA:43,0,MjVDY53eOVadpNvqqGtxNQ
-LF:38
-LH:37
+LF:39
+LH:38
 end_of_record
 TN:
 SF:C:\Python Projects\Alpha-Finance-Tracker\Finance-Tracker-Service\app\models\data_validators\image.py
@@ -287,14 +288,12 @@ DA:7,1,xjcDBnSwra0OiNOAYAwoHA
 DA:8,1,NJb7lFHpfvlMU/aRoeaNBQ
 DA:9,1,f0IEbLt+C9Wrd0DkyiDykQ
 DA:10,1,PXrLz9AbC8PNtvlfN3nFBw
-DA:12,1,7BqglGkV2XzhGgVfsGsaig
-DA:13,1,tcPZJ+D09RnRSFRbhHWqSA
 DA:15,1,4QvUIkZ98JRbjZABN4WpMg
 DA:16,1,2B3ZhdIj6yrFrBFjm6A2Zw
 DA:17,1,cCzhnT+1tmGi11b28Pmfwg
 DA:18,1,rqOSYv65nziWPZcVBXpkDg
-LF:14
-LH:14
+LF:12
+LH:12
 end_of_record
 TN:
 SF:C:\Python Projects\Alpha-Finance-Tracker\Finance-Tracker-Service\app\models\data_validators\kaufland_receipt.py
@@ -328,13 +327,16 @@ DA:9,1,qH93PBjPXfS4WzId9+DlKg
 DA:11,1,Pg5uvSiYLCi8B5uQiQ/KYA
 DA:16,1,DHQi9WD3uQqA33mHay94ow
 DA:18,1,UA1htTk6UTR6WXzN0Wph4w
+DA:19,1,YmW+B23UMn+pW0vAvkuLuQ
+DA:20,1,waXBy5a+LoljS4zMiLWFTQ
 DA:26,1,GQN+0rwX759FSytBq85zWA
 DA:32,1,Jb8jt7pT43TRqyJMt7Hk0g
 DA:36,1,De5hx2vC+b5CmcLs3X7sHQ
 DA:40,1,yXyXQm/AFzBkimfQGZuSvA
 DA:58,1,WJTpSgZtrCCjcjsTQyO8kQ
-DA:19,0,YmW+B23UMn+pW0vAvkuLuQ
-DA:20,0,waXBy5a+LoljS4zMiLWFTQ
+DA:59,1,xjcDBnSwra0OiNOAYAwoHA
+DA:60,1,Bxya8+EFHbrBRmp0US/VUg
+DA:68,1,0szijcLwwkj4+J6apHlGkQ
 DA:21,0,tRezK/7H764LPyKQhtIWEg
 DA:22,0,3hZumS/vtJwtwWzRMv1FRg
 DA:23,0,AiylGpetumxOSIi4WVXYjQ
@@ -360,18 +362,15 @@ DA:52,0,2s4gF7Tx3aGo1SnlcC/y5A
 DA:53,0,brs3aqnShCAjszSvAfeSkA
 DA:54,0,bt70vyafNWIiIWktmAd/xg
 DA:56,0,L7LJB2wTsFG8ywUYGcdE3A
-DA:59,0,xjcDBnSwra0OiNOAYAwoHA
-DA:60,0,Bxya8+EFHbrBRmp0US/VUg
 DA:61,0,WTEphB3nnNZT8xv4yQK0tg
 DA:62,0,NjbNr/fS7T2TYSXCyC500Q
 DA:64,0,6CtgyaEtsoXw/YMhth7l9Q
 DA:65,0,jtO5w84Axlc8c+J4yUu0HA
 DA:66,0,3Q1pXcLAmbxbqq0LFXzKTw
 DA:67,0,VXwlHh+TNdlDwizbhiItIA
-DA:68,0,0szijcLwwkj4+J6apHlGkQ
 DA:69,0,PEC0pZ6LvI8q7i/rRH726Q
 LF:53
-LH:16
+LH:21
 end_of_record
 TN:
 SF:C:\Python Projects\Alpha-Finance-Tracker\Finance-Tracker-Service\app\models\open_ai.py
@@ -438,7 +437,6 @@ DA:24,1,0x6VmfQTkPFCB4uUYis/xQ
 DA:25,1,KN0nXwUjm6OBh8DOy29n4A
 DA:28,1,we3M/4h2rlF/aYemcMF9Yw
 DA:29,1,ZQ4PNti8b4yo9ntFYEX3gA
-DA:30,1,ktCwGCAvUJbPQCZ6wO9PpA
 DA:33,1,OasaBNwE0HB7WJ6IuMYdyQ
 DA:34,1,0MJEbVy7jIFQazlIzKee+w
 DA:35,1,E9eZ/fnfGflcnRhKDgRRAg
@@ -448,6 +446,7 @@ DA:40,1,E9eZ/fnfGflcnRhKDgRRAg
 DA:9,0,nVKNNdn4/qZPgXedJgLbqA
 DA:13,0,YyK5Bgk8ZFvwbDqJepEv4g
 DA:17,0,W040Btx63z/sKOI+NEmgvQ
+DA:30,0,ktCwGCAvUJbPQCZ6wO9PpA
 LF:28
-LH:25
+LH:24
 end_of_record

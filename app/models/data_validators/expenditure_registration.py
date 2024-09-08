@@ -46,6 +46,7 @@ class ExpenditureRegistration(BaseModel):
     @field_validator('date', mode='after')
     def validate_date_format(cls, value):
         try:
-            return datetime.strptime(value, '%d.%m.%Y').date()
+            datetime.strptime(value, '%d.%m.%Y')
+            return value
         except ValueError:
             raise ProcessableEntity('Date must be in the format dd.mm.yyyy')

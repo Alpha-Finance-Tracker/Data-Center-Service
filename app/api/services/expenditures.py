@@ -23,7 +23,7 @@ class Expenditures:
     async def retrieve_data(self):
         time_period = await Periods(self.data.interval).get_period()
 
-        if self.data.category:
+        if self.data.category != 'Optional':
             return await read_query(f"""
                            SELECT {self.data.column_type}, ROUND(SUM(price), 2) as total_price
                            FROM expenditures

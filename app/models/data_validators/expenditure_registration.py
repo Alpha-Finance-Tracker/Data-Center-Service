@@ -36,8 +36,7 @@ class ExpenditureRegistration(BaseModel):
     def validate_expenditure_type(cls, value):
         print(value)
         expenditure_types = {'Animal', 'Dairy', 'Nuts', 'Vegetables', 'Fruit', 'Beverages', 'Communications',
-                             'Electricity',
-                             'Water'}
+                             'Electricity','Water', 'Transport','Health','Entertainment','Sport'}
 
         if value not in expenditure_types:
             raise BadRequest('Expenditure type not allowed!')

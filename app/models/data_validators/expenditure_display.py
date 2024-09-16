@@ -25,7 +25,7 @@ class ExpenditureDisplay(BaseModel):
 
     @field_validator('column_type', mode='after')
     def validate_column_type(cls, value):
-        column_types = {'name','category','type','Optional'}
+        column_types = {'name','category','expenditure_type','Optional'}
 
         if value not in column_types:
             raise BadRequest('Column type not allowed!')

@@ -1,8 +1,8 @@
-from app.database import read_query, update_query
+from app.database.models.expenditures import Expenditures
 from app.models.base_models.periods import Periods
 
 
-class Expenditures:
+class ExpendituresService:
 
     def __init__(self, data):
         self.data = data
@@ -21,22 +21,10 @@ class Expenditures:
             return {}
 
     async def retrieve_data(self):
-        time_period = await Periods(self.data.interval).get_period()
+        period_instance = Periods(self.data.interval)
+        time_period_condition = await period_instance.get_period()
+        return await Expenditures().retrieve_data(self.data.column_type,self.data.category,time_period_condition)
 
-        if self.data.category != 'Optional':
-            return await read_query(f"""
-                           SELECT {self.data.column_type}, ROUND(SUM(price), 2) as total_price
-                           FROM expenditures
-                           WHERE category = %s AND {time_period}
-                           GROUP BY {self.data.column_type}
-                           ORDER BY total_price DESC """, (self.data.category,))
-        else:
-            return await read_query(f"""
-                           SELECT category, ROUND(SUM(price), 2) as total_price
-                           FROM expenditures
-                           WHERE {time_period}
-                           GROUP BY category
-                           ORDER BY total_price DESC""")
 
     async def register(self, user_id):
         await update_query(

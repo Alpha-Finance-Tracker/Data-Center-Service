@@ -1,7 +1,11 @@
 from calendar import Calendar
 from datetime import datetime
 
+from sqlalchemy import func
+
+
 class Month(Calendar):
 
     def interval(self):
-        return f'MONTH(date) = {datetime.now().month}'
+        now = datetime.now()
+        return func.extract('month', func.now()) == now.month

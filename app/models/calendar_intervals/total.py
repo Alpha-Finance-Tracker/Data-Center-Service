@@ -1,6 +1,8 @@
 from calendar import Calendar
 
+from sqlalchemy import text
+
 
 class Total(Calendar):
     def interval(self):
-        return f"date BETWEEN (SELECT MIN(date) FROM expenditures) AND (SELECT MAX(date) FROM expenditures)"
+        return text("1=1")  # No filter, always true

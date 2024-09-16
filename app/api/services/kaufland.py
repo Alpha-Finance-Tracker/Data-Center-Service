@@ -1,6 +1,5 @@
 import logging
 
-from app.database import update_query
 from app.models.data_validators.kaufland_receipt import KauflandReceiptValidator
 from app.models.ocr import OCR
 

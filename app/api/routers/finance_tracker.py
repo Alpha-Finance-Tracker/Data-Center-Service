@@ -3,7 +3,7 @@ from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
 from app.models.data_validators.expenditure_display import ExpenditureDisplay
 from app.models.data_validators.expenditure_registration import ExpenditureRegistration
-from app.api.services.expenditures import Expenditures
+from app.api.services.expenditures import ExpendituresService
 from app.api.services.kaufland import Kaufland
 from app.utils.auth_verification_services import verify_token
 
@@ -71,4 +71,4 @@ async def view_expenditures(data: ExpenditureDisplay,
     - JSON: List of expenditures for the authenticated user.
     """
     await verify_token(credentials.credentials)
-    return await Expenditures(data).display()
+    return await ExpendituresService(data).display()

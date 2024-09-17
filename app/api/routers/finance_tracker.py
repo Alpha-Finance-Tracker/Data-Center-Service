@@ -25,8 +25,8 @@ async def kaufland_receipt(date: str,
     Returns:
     - JSON: Response confirming the registration of the receipt.
     """
-    await verify_token(credentials.credentials)
-    return await Kaufland(date, image).register_receipt()
+    user_token = await verify_token(credentials.credentials)
+    return await Kaufland(date, image).register_receipt(user_token.get('user_id'))
 
 
 @finance_tracker.post('/update')
@@ -50,7 +50,7 @@ async def add_expenditure(data: ExpenditureRegistration,
     - JSON: Response confirming the registration of the expenditure.
     """
     user_token = await verify_token(credentials.credentials)
-    return await Expenditures(data).register(user_token.get('user_id'))
+    return await ExpendituresService(data).register(user_token.get('user_id'))
 
 @finance_tracker.post('/view_expenditures')
 async def view_expenditures(data: ExpenditureDisplay,
@@ -70,5 +70,5 @@ async def view_expenditures(data: ExpenditureDisplay,
     Returns:
     - JSON: List of expenditures for the authenticated user.
     """
-    await verify_token(credentials.credentials)
+    user_token = await verify_token(credentials.credentials)
     return await ExpendituresService(data).display()

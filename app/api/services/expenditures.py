@@ -9,6 +9,7 @@ class ExpendituresService:
 
     async def display(self):
         data = await self.retrieve_data()
+        print(f"Received data {data}")
         output = {}
         try:
             for row in data:
@@ -16,6 +17,7 @@ class ExpendituresService:
                     output['Total'] = row[1]
                 else:
                     output[row[0]] = row[1]
+            print(f"sending data {output}")
             return output
         except:
             return {}
@@ -27,7 +29,11 @@ class ExpendituresService:
 
 
     async def register(self, user_id):
-        await update_query(
-            'INSERT INTO expenditures(name,price,category,type,date,user_id) VALUES(%s,%s,%s,%s,%s,%s)',
-            (self.data.name, self.data.price, self.data.category, self.data.expenditure_type, self.data.date, user_id))
+        new_expenditure = Expenditures(name=self.data.name,price=self.data.price,
+                                       category=self.data.category,
+                                       expenditure_type=self.data.expenditure_type,
+                                       date=self.data.date,user_id=user_id)
+
+        await Expenditures().register(new_expenditure)
+
         return {'message': 'Product added successfully'}

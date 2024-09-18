@@ -8,12 +8,14 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 from app.database.config import DATABASE_URL
 
 
-try:
+if DATABASE_URL:
     engine = create_async_engine(DATABASE_URL, echo=True)
-    SessionLocal = sessionmaker(bind=engine, class_=AsyncSession, expire_on_commit=False)
-    Base = declarative_base()
-except Exception as e:
-    print('No database connection')
+    SessionLocal = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+else:
+    engine = None
+    SessionLocal = None
+
+Base = declarative_base()
 
 @asynccontextmanager
 async def get_db():

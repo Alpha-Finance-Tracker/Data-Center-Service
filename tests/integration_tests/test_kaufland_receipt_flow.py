@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from httpx import AsyncClient
 
+
 import pytest
 
 from app.api.routers.finance_tracker import finance_tracker
@@ -47,7 +48,11 @@ async def test_kaufland_receipt_workflow_when_file_format_invalid():
 
 
 @pytest.mark.asyncio
-async def test_kaufland_receipt_workflow_when_date_format_invalid():
+async def test_kaufland_receipt_workflow_when_date_format_invalid(mocker):
+
+    mocker.patch('app.models.data_validators.kaufland_receipt.KauflandReceiptValidator.validate_image',
+                 mocker.AsyncMock(return_value=True))
+
     files = small_mock_file
     params = {'date': '2024-06-09'}
     async with AsyncClient(app=app, base_url="http://testserver") as client:
@@ -60,7 +65,14 @@ async def test_kaufland_receipt_workflow_when_date_format_invalid():
 
 @pytest.mark.asyncio
 async def test_kaufland_receipt_workflow_when_extract_data_fails(mocker):
+    mocker.patch('app.models.data_validators.kaufland_receipt.KauflandReceiptValidator.validate_image',
+                 mocker.AsyncMock(return_value=True))
+
+    mocker.patch('app.models.data_validators.kaufland_receipt.KauflandReceiptValidator.validate_date',
+                 mocker.AsyncMock(return_value=True))
+
     mocker.patch('app.api.services.kaufland.Kaufland._extract_data', side_effect=InternalServerError)
+
     files = small_mock_file
     params = {'date': '09.06.2024'}
     async with AsyncClient(app=app, base_url="http://testserver") as client:
@@ -73,6 +85,11 @@ async def test_kaufland_receipt_workflow_when_extract_data_fails(mocker):
 
 @pytest.mark.asyncio
 async def test_kaufland_receipt_workflow_from_start_to_end(mocker):
+    mocker.patch('app.models.data_validators.kaufland_receipt.KauflandReceiptValidator.validate_image',
+                 mocker.AsyncMock(return_value=True))
+
+    mocker.patch('app.models.data_validators.kaufland_receipt.KauflandReceiptValidator.validate_date',
+                 mocker.AsyncMock(return_value=True))
     mocker.patch('app.api.services.kaufland.Kaufland._extract_data', mocker.AsyncMock(return_value=[]))
     mocker.patch('app.api.services.kaufland.Kaufland._store_receipt', mocker.AsyncMock(return_value=[]))
     files = small_mock_file
